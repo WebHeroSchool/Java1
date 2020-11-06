@@ -1,4 +1,19 @@
-fetch('https://api.github.com/users/karolinahoover')
+
+const url = 'https://api.github.com/users/';
+ const login = 'karolinahoover';
+ let currentDate = new Date();
+
+ setTimeout(() => {
+   const preloader = document.getElementById('floatingCirclesG');
+   preloader.classList.add('stop');
+ }, 3000);
+
+ const getDate = new Promise((resolve, reject) => {
+   setTimeout(() => currentDate ? resolve(currentDate) : reject('имя не найдено'), 3000);
+ });
+
+ Promise.all([getDate])
+   .then(([currentDate]) => fetch(`${url}${login}`))
    .then(res => res.json())
    .then(json => {
      console.log(json);
@@ -29,4 +44,9 @@ fetch('https://api.github.com/users/karolinahoover')
      avatar.src = user.avatar;
      avatar.classList.add('avatar');
      document.body.appendChild(avatar);
+
+     let date = document.createElement('p');
+     date.innerHTML = currentDate;
+     document.body.appendChild(date);
    })
+   .catch(err => console.log(err));
